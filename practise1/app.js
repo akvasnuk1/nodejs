@@ -21,28 +21,28 @@ const users = [
     {name: 'Emily', gender: "female", age: 27},
     {name: 'Victor', gender: "male", age: 30}
 ];
+fs.mkdir(manOlder20, err => {
+    if (err) {
+        console.log(err);
+    }
+});
+fs.mkdir(womanOlder20, err => {
+    if (err) {
+        console.log(err);
+    }
+});
+fs.mkdir(womanYounger20, err => {
+    if (err) {
+        console.log(err);
+    }
+})
+fs.mkdir(manYounger20, err => {
+    if (err) {
+        console.log(err);
+    }
+})
 
 function createUsers(users) {
-    fs.mkdir(manOlder20, err => {
-        if (err) {
-            console.log(err);
-        }
-    });
-    fs.mkdir(womanOlder20, err => {
-        if (err) {
-            console.log(err);
-        }
-    });
-    fs.mkdir(womanYounger20, err => {
-        if (err) {
-            console.log(err);
-        }
-    })
-    fs.mkdir(manYounger20, err => {
-        if (err) {
-            console.log(err);
-        }
-    })
     users.forEach(value => {
 
         if (value.gender === "male" && value.age > 20) {
