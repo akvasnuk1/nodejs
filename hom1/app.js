@@ -23,30 +23,30 @@ const path2021 = path.join(__dirname, "2021");
 // moveStudents(path1800,path2000);
 
 // 2) Перемістити всіх дівчат в папку girls а хлопців в папаку boys.
- function findGender(filePath){
-     fs.readdir(filePath,(err, files) => {
-         files.forEach(value => {
-             fs.readFile(path.join(filePath,value),(err, data) => {
-                 const {gender}=JSON.parse(data.toString());
-                 if(gender==="female"){
-                     fs.writeFile(path.join(girls,value),data.toString(),err => {
-                         if(err){
-                             console.log(err);
-                         }
-                     })
-                 }else{
-                     fs.writeFile(path.join(boys,value),data.toString(),err => {
-                         if(err){
-                             console.log(err);
-                         }
-                     })
-                 }
-
-             })
-         })
-     })
- }
-findGender(path1800);
+//  function findGender(filePath){
+//      fs.readdir(filePath,(err, files) => {
+//          files.forEach(value => {
+//              fs.readFile(path.join(filePath,value),(err, data) => {
+//                  const {gender}=JSON.parse(data.toString());
+//                  if(gender==="female"){
+//                      fs.writeFile(path.join(girls,value),data.toString(),err => {
+//                          if(err){
+//                              console.log(err);
+//                          }
+//                      })
+//                  }else{
+//                      fs.writeFile(path.join(boys,value),data.toString(),err => {
+//                          if(err){
+//                              console.log(err);
+//                          }
+//                      })
+//                  }
+//
+//              })
+//          })
+//      })
+//  }
+// findGender(path1800);
 //  * вам потрбіно перемісти всі файлики з вкладених папок в іншу папку. Зробити всі файли на одному рівні вкладеності.
 function getAllFiles(fromDir) {
     fs.readdir(fromDir, (err, files) => {
