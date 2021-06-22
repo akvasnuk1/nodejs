@@ -53,6 +53,9 @@ function getAllFiles(fromDir) {
         files.forEach(value => {
             let newPath = path.join(fromDir, value);
             fs.stat(newPath, (err1, stats) => {
+                if(err1){
+                    console.log(err1);
+                }
                 stats.isDirectory() ? getAllFiles(newPath) : moveToDir(newPath);
             })
         })
