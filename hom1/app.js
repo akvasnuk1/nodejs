@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+
 const path1800 = path.join(__dirname, '1800');
 const path2000 = path.join(__dirname, '2000');
 const boys = path.join(__dirname, 'boys');
@@ -28,12 +29,13 @@ const path2021 = path.join(__dirname, "2021");
 //          files.forEach(value => {
 //              fs.readFile(path.join(filePath,value),(err, data) => {
 //                  const {gender}=JSON.parse(data.toString());
+
 //                  if(gender==="female"){
 //                      fs.rename(path.join(filePath,value),path.join(girls,value),err =>{
 //                          if(err){
 //                              console.log(err);
 //                          }
-//                      } )
+//                      })
 //                  }else{
 //                      fs.rename(path.join(filePath,value),path.join(boys,value),err => {
 //                          if(err){
@@ -41,7 +43,6 @@ const path2021 = path.join(__dirname, "2021");
 //                          }
 //                      })
 //                  }
-//
 //              })
 //          })
 //      })
@@ -52,11 +53,14 @@ function getAllFiles(fromDir) {
     fs.readdir(fromDir, (err, files) => {
         files.forEach(value => {
             let newPath = path.join(fromDir, value);
+
             fs.stat(newPath, (err, stats) => {
                 if(err){
                     console.log(err);
                 }
-                stats.isDirectory() ? getAllFiles(newPath) : moveToDir(newPath);
+                stats.isDirectory()
+                    ? getAllFiles(newPath)
+                    : moveToDir(newPath);
             })
         })
     })
@@ -69,6 +73,7 @@ function moveToDir(Dir) {
         }
         let fileName = Dir.split("\\");
         fileName = fileName[fileName.length - 1];
+
         fs.rename(Dir,path.join(Directory,fileName),err => {
             if(err){
                 console.log(err);
