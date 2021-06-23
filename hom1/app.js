@@ -29,13 +29,13 @@ const path2021 = path.join(__dirname, "2021");
 //              fs.readFile(path.join(filePath,value),(err, data) => {
 //                  const {gender}=JSON.parse(data.toString());
 //                  if(gender==="female"){
-//                      fs.writeFile(path.join(girls,value),data.toString(),err => {
+//                      fs.rename(path.join(filePath,value),path.join(girls,value),err =>{
 //                          if(err){
 //                              console.log(err);
 //                          }
-//                      })
+//                      } )
 //                  }else{
-//                      fs.writeFile(path.join(boys,value),data.toString(),err => {
+//                      fs.rename(path.join(filePath,value),path.join(boys,value),err => {
 //                          if(err){
 //                              console.log(err);
 //                          }
@@ -69,8 +69,8 @@ function moveToDir(Dir) {
         }
         let fileName = Dir.split("\\");
         fileName = fileName[fileName.length - 1];
-        fs.writeFile(path.join(Directory, fileName), data.toString(), err => {
-            if (err) {
+        fs.rename(Dir,path.join(Directory,fileName),err => {
+            if(err){
                 console.log(err);
             }
         })
