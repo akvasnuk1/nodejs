@@ -29,7 +29,7 @@ app.get("/error", (req, res) => {
     res.render('error');
 });
 
-app.get('/loginError',(req, res) => {
+app.get('/loginError', (req, res) => {
     res.render('loginError');
 })
 
@@ -59,32 +59,32 @@ app.post('/registration', (req, res) => {
     return res.json("OK");
 });
 
-app.post('/login',(req, res) => {
-    const users=getUsers();
-    const  {email,password}=req.body;
+app.post('/login', (req, res) => {
+    const users = getUsers();
+    const {email, password} = req.body;
 
-    const user=users.find(user=>user.email===email) && users.find(user=>user.password===password);
+    const user = users.find(user => user.email === email) && users.find(user => user.password === password);
 
-        if(user){
-            return res.redirect(`/chosenUser/${user.email}`);
-        }
+    if (user) {
+        return res.redirect(`/chosenUser/${user.email}`);
+    }
 
-        return res.redirect('loginError');
+    return res.redirect('loginError');
 });
 
-app.get('/chosenUser/:userEmail',(req, res) => {
-    const {userEmail}=req.params;
-    const users=getUsers();
+app.get('/chosenUser/:userEmail', (req, res) => {
+    const {userEmail} = req.params;
+    const users = getUsers();
 
-    const user=users.find(user=>user.email===userEmail);
-    const {email,password}=user;
+    const user = users.find(user => user.email === userEmail);
+    const {email, password} = user;
 
-    res.render('chosenUser',{email,password})
+    res.render('chosenUser', {email, password})
 })
 
 app.get("/users", (req, res) => {
-    const users=getUsers();
-    res.render('users',{users});
+    const users = getUsers();
+    res.render('users', {users});
 });
 
 
