@@ -53,7 +53,7 @@ app.post('/registration', (req, res) => {
         return res.redirect('error');
     }
 
-    users.push(req.body)
+    users.push(req.body);
     pushUsers(users);
 
     return res.json("OK");
