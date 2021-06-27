@@ -22,8 +22,9 @@ module.exports = {
     res.status(statusCode.CREATED).json('You successful register');
   },
   updateUser: async (req, res) => {
-    await userService.updateUser(req.params, req.body);
+    const { userId } = req.params;
+
+    await userService.updateUser(userId, req.body);
     res.status(statusCode.UPDATED).json('successful updated');
   }
-
 };

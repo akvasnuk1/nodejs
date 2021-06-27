@@ -20,12 +20,12 @@ module.exports = {
   },
   updateUser: async (userId, newUserData) => {
     const users = JSON.parse((await readFilePromise(constants.DB_URL)).toString());
-    users.splice(userId, 1, newUserData);
+    users.splice(userId - 1, 1, newUserData);
     await writeFailPromise(constants.DB_URL, JSON.stringify(users));
   },
   deleteUser: async (userID) => {
     const users = JSON.parse((await readFilePromise(constants.DB_URL)).toString());
-    users.splice(userID, 1);
+    users.splice(userID - 1, 1);
     await writeFailPromise(constants.DB_URL, JSON.stringify(users));
   }
 };
