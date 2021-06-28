@@ -15,7 +15,9 @@ module.exports = {
     await writeFailPromise(constants.DB_URL, JSON.stringify(userData));
   },
   findUserById: async (userID) => {
-    const users = JSON.parse((await readFilePromise(constants.DB_URL)).toString());
+    const usersData = await readFilePromise(constants.DB_URL);
+    const users = JSON.parse(usersData.toString());
+
     return users[userID - 1];
   },
   updateUser: async (userId, newUserData) => {
