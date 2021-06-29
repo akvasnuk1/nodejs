@@ -1,11 +1,11 @@
 const { statusCode } = require('../constants/index');
-const { User } = require('../database/index');
 const { successfulMessage } = require('../constants/index');
+const { userService } = require('../services/index');
 
 module.exports = {
   allUser: async (req, res) => {
     try {
-      const users = await User.find({});
+      const users = await userService.getAllUsers();
 
       res.json(users);
     } catch (e) {
@@ -17,7 +17,7 @@ module.exports = {
     try {
       const { userId } = req.params;
 
-      await User.findByIdAndDelete(userId);
+      await userService.deleteUser(userId);
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
@@ -28,7 +28,7 @@ module.exports = {
   getUser: async (req, res) => {
     try {
       const { userId } = req.params;
-      const user = await User.findById(userId);
+      const user = await userService.findUserById(userId);
 
       res.json(user);
     } catch (e) {
@@ -37,7 +37,7 @@ module.exports = {
   },
 
   createUser: async (req, res) => {
-    await User.create(req.body);
+    await userService.insertUser(req.body);
 
     res.status(statusCode.CREATED).json(successfulMessage.REGISTER_MESSAGE);
   },
@@ -45,7 +45,7 @@ module.exports = {
   updateUser: async (req, res) => {
     try {
       const { userId } = req.params;
-      await User.findByIdAndUpdate(userId, req.body);
+      await userService.updateUser(userId, req.body);
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {
