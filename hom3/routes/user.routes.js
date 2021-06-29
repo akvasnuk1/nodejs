@@ -5,12 +5,15 @@ const { userMiddleware } = require('../middlewars/index');
 
 router.get('/', userController.allUser);
 
-router.get('/:userId', userMiddleware.isUserExists, userController.getUser);
+router.post('/', userMiddleware.isUserRegister, userMiddleware.isFieldEmpty, userController.createUser);
 
-router.post('/', userMiddleware.isUserRegister, userController.createUser);
+router.get('/:userId', userMiddleware.isUserExists, userController.getUser);
 
 router.delete('/:userId', userMiddleware.isUserExists, userController.deleteUser);
 
-router.patch('/:userId', userMiddleware.isUserExists, userMiddleware.isUserRegister, userController.updateUser);
+router.patch('/:userId', userMiddleware.isUserExists,
+  userMiddleware.isEmailEmpty,
+  userMiddleware.isUserRegister,
+  userController.updateUser);
 
 module.exports = router;

@@ -11,27 +11,41 @@ module.exports = {
     const users = await readFilePromise(constants.DB_URL);
     return JSON.parse(users.toString());
   },
+
   insertUser: async (userData) => {
     await writeFailPromise(constants.DB_URL, JSON.stringify(userData));
   },
+
   findUserById: async (userID) => {
     const usersData = await readFilePromise(constants.DB_URL);
     const users = JSON.parse(usersData.toString());
 
-    return users[userID - 1];
+    const user = users.find((userData) => userData.id === +userID);
+
+    return user;
   },
+
   updateUser: async (userId, newUserData) => {
     const usersData = await readFilePromise(constants.DB_URL);
     const users = JSON.parse(usersData.toString());
 
-    users.splice(userId - 1, 1, newUserData);
+    const user = users.find((userData) => userData.id === +userId);
+    const userIndex = users.indexOf(user);
+
+    const updatedUser = { ...users[userIndex], ...newUserData };
+
+    users.splice(userIndex, 1, updatedUser);
     await writeFailPromise(constants.DB_URL, JSON.stringify(users));
   },
+
   deleteUser: async (userID) => {
     const usersData = await readFilePromise(constants.DB_URL);
     const users = JSON.parse(usersData.toString());
 
-    users.splice(userID - 1, 1);
+    const user = users.find((userData) => userData.id === +userID);
+    const userIndex = users.indexOf(user);
+
+    users.splice(userIndex, 1);
     await writeFailPromise(constants.DB_URL, JSON.stringify(users));
   }
 };

@@ -1,30 +1,66 @@
 const { userService } = require('../services/index');
-const { statusCode } = require('../constants/index');
+const { statusCode, errors } = require('../constants/index');
 
 module.exports = {
   isUserExists: async (req, res, next) => {
-    const { userId } = req.params;
-    const user = await userService.findUserById(userId);
+    try {
+      const { userId } = req.params;
 
-    if (!user) {
-      res.status(statusCode.BAD_REQUEST).json('user not exist');
-      throw new Error('user doesnt exist');
+      const user = await userService.findUserById(userId);
+      console.log(user);
+      if (!user) {
+        throw new Error(errors.IS_USER_EXIST);
+      }
+      req.user = user;
+
+      next();
+    } catch (e) {
+      res.status(statusCode.BAD_REQUEST).json(e.message);
     }
-    req.user = user;
-
-    next();
   },
+
   isUserRegister: async (req, res, next) => {
-    const { email } = req.body;
-    const users = await userService.getAllUsers();
+    try {
+      const { email } = req.body;
+      const users = await userService.getAllUsers();
 
-    const userByEmail = users.find((userData) => userData.email === email);
+      const userByEmail = users.find((userData) => userData.email === email);
 
-    if (userByEmail) {
-      res.status(statusCode.BAD_REQUEST).json('You are registered');
-      throw new Error('You are registered');
+      if (userByEmail) {
+        throw new Error('You are registered');
+      }
+
+      next();
+    } catch (e) {
+      res.status(statusCode.BAD_REQUEST).json(e.message);
     }
+  },
 
-    next();
+  isFieldEmpty: (req, res, next) => {
+    try {
+      const { name, email, password } = req.body;
+
+      if (!name || !email || !password) {
+        throw new Error(errors.IS_FIELD_EMPTY);
+      }
+
+      next();
+    } catch (e) {
+      res.status(statusCode.BAD_REQUEST).json(e.message);
+    }
+  },
+
+  isEmailEmpty: (req, res, next) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        throw new Error(errors.IS_EMAIL_EMPTY);
+      }
+
+      next();
+    } catch (e) {
+      res.search(statusCode.BAD_REQUEST).json(e.message);
+    }
   }
 };
