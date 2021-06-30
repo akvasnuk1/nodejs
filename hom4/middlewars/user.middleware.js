@@ -13,7 +13,7 @@ module.exports = {
 
       next();
     } catch (e) {
-      res.status(statusCode.BAD_REQUEST).json(e.message);
+      next(e);
     }
   },
 
@@ -28,7 +28,7 @@ module.exports = {
 
       next();
     } catch (e) {
-      res.status(statusCode.BAD_REQUEST).json(e.message);
+      next(e);
     }
   },
 
@@ -48,7 +48,7 @@ module.exports = {
 
       next();
     } catch (e) {
-      res.status(statusCode.BAD_REQUEST).json(e.message);
+      next(e);
     }
   }
 };

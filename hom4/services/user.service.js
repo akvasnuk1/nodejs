@@ -1,11 +1,7 @@
 const { User } = require('../database');
 
 module.exports = {
-  getAllUsers: async () => {
-    const users = await User.find({});
-
-    return users;
-  },
+  getAllUsers: () => User.find({}),
 
   insertUser: async (user) => {
     await User.create(user);
