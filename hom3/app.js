@@ -1,7 +1,7 @@
 const express = require('express');
 
-const { constants } = require('./constants/index');
-const { userRouter } = require('./routes/index');
+const { constants } = require('./constants');
+const { userRouter } = require('./routes');
 
 const app = express();
 

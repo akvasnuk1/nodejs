@@ -1,5 +1,5 @@
-const { userService } = require('../services/index');
-const { statusCode, errors } = require('../constants/index');
+const { userService } = require('../services');
+const { statusCode, errors } = require('../constants');
 
 module.exports = {
   isUserExists: async (req, res, next) => {
