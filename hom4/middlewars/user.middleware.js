@@ -1,6 +1,6 @@
-const { ErrorHandler, errorMessage } = require('../error/index');
-const { statusCode } = require('../constants/index');
-const { userService } = require('../services/index');
+const { ErrorHandler, errorMessage } = require('../error');
+const { statusCode } = require('../constants');
+const { userService } = require('../services');
 
 module.exports = {
   isFieldEmpty: (req, res, next) => {
@@ -22,7 +22,7 @@ module.exports = {
       const { email } = req.body;
       const userByEmail = await userService.findUserByEmail(email);
 
-      if (userByEmail.length > 0) {
+      if (userByEmail) {
         throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.USER_IS_REGISTER.message, errorMessage.USER_IS_REGISTER.code);
       }
 

@@ -1,19 +1,18 @@
-const { statusCode } = require('../constants/index');
-const { successfulMessage } = require('../constants/index');
-const { userService } = require('../services/index');
+const { statusCode, successfulMessage } = require('../constants');
+const { userService } = require('../services');
 
 module.exports = {
-  allUser: async (req, res) => {
+  allUser: async (req, res, next) => {
     try {
       const users = await userService.getAllUsers();
 
       res.json(users);
     } catch (e) {
-      res.stat(statusCode.DELETED).json(e.message);
+      next(e);
     }
   },
 
-  deleteUser: async (req, res) => {
+  deleteUser: async (req, res, next) => {
     try {
       const { userId } = req.params;
 
@@ -21,35 +20,38 @@ module.exports = {
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
-      res.json(e.message);
+      next(e);
     }
   },
 
-  getUser: async (req, res) => {
+  getUser: async (req, res, next) => {
     try {
       const { userId } = req.params;
       const user = await userService.findUserById(userId);
 
       res.json(user);
     } catch (e) {
-      res.status(statusCode.BAD_REQUEST).json(e.message);
+      next(e);
     }
   },
 
-  createUser: async (req, res) => {
-    await userService.insertUser(req.body);
-
-    res.status(statusCode.CREATED).json(successfulMessage.REGISTER_MESSAGE);
+  createUser: async (req, res, next) => {
+    try {
+      await userService.insertUser(req.body);
+      res.status(statusCode.CREATED).json(successfulMessage.REGISTER_MESSAGE);
+    } catch (e) {
+      next(e);
+    }
   },
 
-  updateUser: async (req, res) => {
+  updateUser: async (req, res, next) => {
     try {
       const { userId } = req.params;
       await userService.updateUser(userId, req.body);
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {
-      res.status(statusCode.BAD_REQUEST).json(e.message);
+      next(e);
     }
   }
 };

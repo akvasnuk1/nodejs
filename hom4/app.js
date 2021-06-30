@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { constants } = require('./constants/index');
-const { userRouter } = require('./routes/index');
+const { constants } = require('./constants');
+const { userRouter } = require('./routes');
 
 const app = express();
 

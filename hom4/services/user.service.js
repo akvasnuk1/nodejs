@@ -1,4 +1,4 @@
-const { User } = require('../database/index');
+const { User } = require('../database');
 
 module.exports = {
   getAllUsers: async () => {
@@ -11,11 +11,7 @@ module.exports = {
     await User.create(user);
   },
 
-  findUserById: async (userID) => {
-    const usersById = await User.findById(userID);
-
-    return usersById;
-  },
+  findUserById: (userID) => User.findById(userID),
 
   updateUser: async (userId, updatedUser) => {
     await User.findByIdAndUpdate(userId, updatedUser);
@@ -25,10 +21,5 @@ module.exports = {
     await User.findByIdAndDelete(userID);
   },
 
-  findUserByEmail: async (userEmail) => {
-    const userByEmail = await User.find({ email: userEmail });
-
-    return userByEmail;
-  }
-
+  findUserByEmail: (userEmail) => User.findOne({ email: userEmail })
 };
