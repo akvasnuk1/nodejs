@@ -17,5 +17,5 @@ module.exports = {
     await User.findByIdAndDelete(userID);
   },
 
-  findUserByEmail: (userEmail) => User.findOne({ email: userEmail })
+  findUserByEmail: (email) => User.findOne({ email })
 };
