@@ -22,7 +22,7 @@ module.exports = {
   isUserExists: async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const { error } = urlValidator.urlValidator.validate(userId);
+      const { error } = await urlValidator.urlValidator.validate(userId);
 
       if (error) {
         // eslint-disable-next-line max-len
@@ -40,9 +40,9 @@ module.exports = {
       next(e);
     }
   },
-  isUserDataValid: (req, res, next) => {
+  isUserDataValid: async (req, res, next) => {
     try {
-      const { error } = userValidator.createUserValidator.validate(req.body);
+      const { error } = await userValidator.createUserValidator.validate(req.body);
 
       if (error) {
         throw new ErrorHandler(statusCode.BAD_REQUEST, error.details[0].message, errorMessage.NOT_VALID_DATA.code);
