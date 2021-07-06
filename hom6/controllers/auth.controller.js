@@ -35,8 +35,8 @@ module.exports = {
 
       const tokenPair = authHelper.generateTokenPair();
 
-      await OAuth.create({ ...tokenPair, user: _id });
       await OAuth.remove({ refreshToken });
+      await OAuth.create({ ...tokenPair, user: _id });
 
       res.status(statusCode.UPDATED).json({ ...tokenPair, user });
     } catch (e) {
