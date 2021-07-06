@@ -1,9 +1,9 @@
-const { passwordHelper, authHelper } = require('../helpers');
-const { ErrorHandler, errorMessage } = require('../error');
 const { statusCode, constants: { AUTHORIZATION } } = require('../constants');
+const { OAuth } = require('../database');
+const { ErrorHandler, errorMessage } = require('../error');
+const { passwordHelper, authHelper } = require('../helpers');
 const { userService } = require('../services');
 const { authValidator } = require('../validators');
-const { OAuth } = require('../database');
 
 module.exports = {
   checkIsUserDataValid: async (req, res, next) => {
