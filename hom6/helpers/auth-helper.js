@@ -1,14 +1,23 @@
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
-const { constants, statusCode } = require('../constants');
+const {
+  constants: {
+    ACCESS_TOKEN_TIME,
+    REFRESH_TOKEN_TIME,
+    ACCESS_TOKEN_SECRET,
+    REFRESH_TOKEN_SECRET,
+    ACCESS
+  },
+  statusCode
+} = require('../constants');
 const { ErrorHandler, errorMessage } = require('../error');
 
 const verifyPromise = promisify(jwt.verify);
 
 module.exports = {
   generateTokenPair: () => {
-    const accessToken = jwt.sign({}, constants.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
-    const refreshToken = jwt.sign({}, constants.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+    const accessToken = jwt.sign({}, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_TIME });
+    const refreshToken = jwt.sign({}, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_TIME });
 
     return {
       accessToken,
@@ -16,11 +25,11 @@ module.exports = {
     };
   },
 
-  verifyToken: async (token, tokenType = 'access') => {
+  verifyToken: async (token, tokenType = ACCESS) => {
     try {
-      const secretWord = tokenType === 'access'
-        ? constants.ACCESS_TOKEN_SECRET
-        : constants.REFRESH_TOKEN_SECRET;
+      const secretWord = tokenType === ACCESS
+        ? ACCESS_TOKEN_SECRET
+        : REFRESH_TOKEN_SECRET;
 
       await verifyPromise(token, secretWord);
     } catch (e) {

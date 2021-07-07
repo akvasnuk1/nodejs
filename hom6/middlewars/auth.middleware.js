@@ -1,4 +1,4 @@
-const { statusCode, constants: { AUTHORIZATION } } = require('../constants');
+const { statusCode, constants: { AUTHORIZATION, REFRESH } } = require('../constants');
 const { OAuth } = require('../database');
 const { ErrorHandler, errorMessage } = require('../error');
 const { passwordHelper, authHelper } = require('../helpers');
@@ -79,7 +79,7 @@ module.exports = {
         throw new ErrorHandler(statusCode.UNAUTHORIZED, errorMessage.NO_TOKEN.message, errorMessage.NO_TOKEN.code);
       }
 
-      await authHelper.verifyToken(token, 'refresh');
+      await authHelper.verifyToken(token, REFRESH);
 
       const tokenObject = await OAuth.findOne({ refreshToken: token });
 

@@ -1,13 +1,13 @@
 const router = require('express').Router();
 
 const { userController } = require('../controllers');
-const { userMiddleware } = require('../middlewars');
+const { userMiddleware, authMiddleware } = require('../middlewars');
 
 router.get('/', userController.allUser);
 
 router.post('/', userMiddleware.isUserDataValid, userMiddleware.isUserRegister, userController.createUser);
 
-router.use('/:userId', userMiddleware.isUserExists);
+router.use('/:userId', userMiddleware.isUserExists, authMiddleware.checkAccessToken);
 
 router.get('/:userId', userController.getUser);
 
