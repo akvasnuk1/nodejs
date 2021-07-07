@@ -15,7 +15,7 @@ const oAuthScheme = new Schema({
     required: true,
     ref: dataBaseTablesEnum.USER
   }
-});
+}, { timestamps: true });
 
 oAuthScheme.pre('findOne', function() {
   this.populate('user');

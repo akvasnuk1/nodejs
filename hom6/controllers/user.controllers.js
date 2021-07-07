@@ -1,6 +1,7 @@
-const { statusCode, successfulMessage } = require('../constants');
+const { statusCode, successfulMessage, constants: { AUTHORIZATION } } = require('../constants');
 const { userService } = require('../services');
 const { passwordHelper } = require('../helpers');
+const { OAuth } = require('../database');
 
 module.exports = {
   allUser: async (req, res, next) => {
@@ -16,8 +17,10 @@ module.exports = {
   deleteUser: async (req, res, next) => {
     try {
       const { user } = req;
+      const token = req.get(AUTHORIZATION);
 
       await userService.deleteUser(user);
+      await OAuth.remove({ accessToken: token });
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
