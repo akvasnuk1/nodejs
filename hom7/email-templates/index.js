@@ -1,0 +1,16 @@
+const { emailActionsEnum } = require('../constants');
+
+module.exports = {
+  [emailActionsEnum.WELCOME]: {
+    templateName: 'welcome',
+    subject: 'Welcome on board'
+  },
+  [emailActionsEnum.DELETE_USER]: {
+    templateName: 'delete-account',
+    subject: 'Account successful deleted'
+  },
+  [emailActionsEnum.UPDATE_USER]: {
+    templateName: 'update-account',
+    subject: 'Account successful updated'
+  }
+};
