@@ -20,7 +20,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
     select: false
+  },
+  carOwner: {
+    type: Schema.Types.ObjectId,
+    ref: dataBaseTablesEnum.Car
   }
 }, { timestamps: true });
+
+userSchema.pre('findOne', function() {
+  this.populate('owner');
+});
 
 module.exports = model(dataBaseTablesEnum.USER, userSchema);

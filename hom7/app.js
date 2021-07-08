@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const { constants } = require('./constants');
-const { userRouter, authRouter } = require('./routes');
+const { userRouter, authRouter, carRouter } = require('./routes');
 const { errorMessage } = require('./error');
 
 const app = express();
@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
+app.use('/cars', carRouter);
 // eslint-disable-next-line no-use-before-define
 app.use(_hadleErrors);
 // eslint-disable-next-line no-use-before-define

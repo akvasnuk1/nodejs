@@ -40,5 +40,9 @@ module.exports = {
   WRONG_TEMPLATE: {
     message: 'Wrong template',
     code: 4041
+  },
+  USER_DOES_NOT_HAVE_CAR: {
+    message: 'User does not have car',
+    code: 4042
   }
 };

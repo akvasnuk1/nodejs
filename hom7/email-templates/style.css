@@ -6,6 +6,7 @@
 
 .content {
     padding: 20px;
+    font-size: 20px;
 }
 
 .title {
@@ -19,4 +20,5 @@
     padding: 10px;
     border-radius: 10px;
     background-color: skyblue;
+    column-gap: 260px;
 }

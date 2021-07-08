@@ -41,6 +41,7 @@ module.exports = {
       next(e);
     }
   },
+
   isUserDataValid: async (req, res, next) => {
     try {
       const { error } = await userValidator.createUserValidator.validate(req.body);

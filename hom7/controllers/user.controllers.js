@@ -2,7 +2,8 @@ const {
   statusCode,
   successfulMessage,
   constants: { AUTHORIZATION },
-  emailActionsEnum: { WELCOME, UPDATE_USER, DELETE_USER }
+  emailActionsEnum: { WELCOME, UPDATE_USER, DELETE_USER },
+  emailActionImage: { REGISTER_IMAGE, UPDATE_IMAGE, DELETE_IMAGE }
 } = require('../constants');
 const { userService, mailService } = require('../services');
 const { passwordHelper } = require('../helpers');
@@ -26,7 +27,7 @@ module.exports = {
 
       await userService.deleteUser(user);
       await OAuth.remove({ accessToken: token });
-      await mailService.sendMail(user.email, DELETE_USER, { userName: user.name });
+      await mailService.sendMail(user.email, DELETE_USER, { userName: user.name, img: DELETE_IMAGE });
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
@@ -52,7 +53,7 @@ module.exports = {
 
       await userService.insertUser({ ...req.body, password });
 
-      await mailService.sendMail(email, WELCOME, { userName: name });
+      await mailService.sendMail(email, WELCOME, { userName: name, img: REGISTER_IMAGE });
 
       res.status(statusCode.CREATED).json(successfulMessage.REGISTER_MESSAGE);
     } catch (e) {
@@ -65,7 +66,7 @@ module.exports = {
       const { user } = req;
 
       await userService.updateUser(user, req.body);
-      await mailService.sendMail(user.email, UPDATE_USER, { userName: user.name });
+      await mailService.sendMail(user.email, UPDATE_USER, { userName: user.name, img: UPDATE_IMAGE });
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {

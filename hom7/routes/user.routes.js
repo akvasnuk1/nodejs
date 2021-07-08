@@ -1,18 +1,23 @@
 const router = require('express').Router();
 
-const { userController } = require('../controllers');
-const { userMiddleware, authMiddleware } = require('../middlewars');
+const { userController, carController } = require('../controllers');
+const { userMiddleware, authMiddleware, carMiddleware } = require('../middlewars');
 
 router.get('/', userController.allUser);
 
 router.post('/', userMiddleware.isUserDataValid, userMiddleware.isUserRegister, userController.createUser);
 
-router.use('/:userId', userMiddleware.isUserExists, authMiddleware.checkAccessToken);
+router.get('/:userId', userMiddleware.isUserExists, userController.getUser);
 
-router.get('/:userId', userController.getUser);
+router.delete('/:userId', userMiddleware.isUserExists, authMiddleware.checkAccessToken, userController.deleteUser);
 
-router.delete('/:userId', userController.deleteUser);
+// eslint-disable-next-line max-len
+router.patch('/:userId', userMiddleware.isUserUpdateDataValid, userMiddleware.isUserExists, authMiddleware.checkAccessToken, userController.updateUser);
 
-router.patch('/:userId', userMiddleware.isUserUpdateDataValid, userController.updateUser);
+router.get('/:userId/cars/:status', carController.getUserCarsByStatus);
+
+router.get('/:userId/cars/:carId', carMiddleware.isCarExist, carController.getCar);
+
+router.get('/:userId/cars', carController.getUserCars);
 
 module.exports = router;
