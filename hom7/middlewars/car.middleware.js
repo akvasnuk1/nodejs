@@ -37,7 +37,7 @@ module.exports = {
   isCarExist: async (req, res, next) => {
     try {
       const { carId } = req.params;
-      console.log(carId);
+
       const { error } = await urlValidator.urlValidator.validate(carId);
 
       if (error) {

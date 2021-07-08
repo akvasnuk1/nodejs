@@ -88,5 +88,43 @@ module.exports = {
     } catch (e) {
       next(e);
     }
-  }
+  },
+
+  getUserCarsByStatus: async (req, res, next) => {
+    try {
+      const { userId, status } = req.params;
+
+      const user = await userService.findUserById(userId);
+
+      const { email } = user;
+
+      const cars = await carService.getAllUserCars(email, status);
+
+      if (!cars.length) {
+        // eslint-disable-next-line max-len
+        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.USER_DOES_NOT_HAVE_CAR.message, errorMessage.USER_DOES_NOT_HAVE_CAR.code);
+      }
+
+      res.json(cars);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  getCarsByStatus: async (req, res, next) => {
+    try {
+      const { status } = req.params;
+
+      const cars = await carService.getAllCarsByStatus({ status });
+
+      if (!cars.length) {
+        // eslint-disable-next-line max-len
+        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.USER_DOES_NOT_HAVE_CAR.message, errorMessage.USER_DOES_NOT_HAVE_CAR.code);
+      }
+
+      res.json(cars);
+    } catch (e) {
+      next(e);
+    }
+  },
 };
