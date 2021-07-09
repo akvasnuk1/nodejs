@@ -7,7 +7,7 @@ router.get('/', carController.allCars);
 
 router.post('/', carMiddleware.isCarDataValid, authMiddleware.checkAccessToken, carController.createCar);
 
-router.get('/:status', carMiddleware.isCarUpdateDataValid, carController.getCarsByStatus);
+router.get('/status/:status', carMiddleware.isCarUpdateDataValid, carController.getCarsByStatus);
 
 router.use('/:carId', carMiddleware.isCarExist);
 
