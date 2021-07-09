@@ -17,7 +17,7 @@ module.exports = {
     await Car.create(carData);
   },
 
-  getAllUserCars: (userEmail) => Car.aggregate([
+  getAllUserCars: (userEmail, status = { $exists: true }) => Car.aggregate([
     {
       $lookup:
             {
@@ -26,23 +26,6 @@ module.exports = {
               foreignField: '_id',
               as: 'ownerCar'
             }
-    },
-    {
-      $match: {
-        'ownerCar.email': userEmail
-      }
-    }
-  ]),
-
-  getAllUserCarsByStatus: (userEmail, status) => Car.aggregate([
-    {
-      $lookup:
-          {
-            from: 'users',
-            localField: 'owner',
-            foreignField: '_id',
-            as: 'ownerCar'
-          }
     },
     {
       $match: {

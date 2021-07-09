@@ -69,29 +69,12 @@ module.exports = {
     }
   },
 
-  getUserCars: async (req, res, next) => {
+  getUserCarsDynamic: async (req, res, next) => {
     try {
       const { email } = req.user;
-
-      const cars = await carService.getAllUserCars(email);
-
-      if (!cars.length) {
-        // eslint-disable-next-line max-len
-        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.USER_DOES_NOT_HAVE_CAR.message, errorMessage.USER_DOES_NOT_HAVE_CAR.code);
-      }
-
-      res.json(cars);
-    } catch (e) {
-      next(e);
-    }
-  },
-
-  getUserCarsByStatus: async (req, res, next) => {
-    try {
       const { status } = req.params;
-      const { email } = req.user;
 
-      const cars = await carService.getAllUserCarsByStatus(email, status);
+      const cars = await carService.getAllUserCars(email, status);
 
       if (!cars.length) {
         // eslint-disable-next-line max-len

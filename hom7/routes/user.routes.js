@@ -16,9 +16,9 @@ router.delete('/:userId', authMiddleware.checkAccessToken, userController.delete
 // eslint-disable-next-line max-len
 router.patch('/:userId', userMiddleware.isUserUpdateDataValid, authMiddleware.checkAccessToken, userController.updateUser);
 
-router.get('/:userId/cars', carController.getUserCars);
+router.get('/:userId/cars', carController.getUserCarsDynamic);
 
-router.get('/:userId/cars/:status', carMiddleware.isCarUpdateDataValid, carController.getUserCarsByStatus);
+router.get('/:userId/cars/:status', carMiddleware.isCarUpdateDataValid, carController.getUserCarsDynamic);
 
 router.get('/:userId/cars/:carId', carMiddleware.isCarExist, carController.getCar);
 
