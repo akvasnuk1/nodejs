@@ -69,12 +69,12 @@ module.exports = {
     }
   },
 
-  getUserCarsDynamic: async (req, res, next) => {
+  getUserCars: async (req, res, next) => {
     try {
       const { email } = req.user;
       const { status } = req.params;
 
-      const cars = await carService.getAllUserCars(email, status);
+      const cars = await carService.getAllUserCarsDynamic(email, status);
 
       if (!cars.length) {
         // eslint-disable-next-line max-len
@@ -95,7 +95,7 @@ module.exports = {
 
       if (!cars.length) {
         // eslint-disable-next-line max-len
-        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.USER_DOES_NOT_HAVE_CAR.message, errorMessage.USER_DOES_NOT_HAVE_CAR.code);
+        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.DONT_HAVE_ACTIVE_OR_SOLD_CAR.message, errorMessage.DONT_HAVE_ACTIVE_OR_SOLD_CAR.code);
       }
 
       res.json(cars);

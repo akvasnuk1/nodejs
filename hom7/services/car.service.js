@@ -17,7 +17,7 @@ module.exports = {
     await Car.create(carData);
   },
 
-  getAllUserCars: (userEmail, status = { $exists: true }) => Car.aggregate([
+  getAllUserCarsDynamic: (userEmail, status = { $exists: true }) => Car.aggregate([
     {
       $lookup:
             {

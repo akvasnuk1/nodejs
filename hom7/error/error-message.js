@@ -44,5 +44,9 @@ module.exports = {
   USER_DOES_NOT_HAVE_CAR: {
     message: 'User does not have car',
     code: 4042
+  },
+  DONT_HAVE_ACTIVE_OR_SOLD_CAR: {
+    message: 'Dont have active or sold car',
+    code: 4043
   }
 };
