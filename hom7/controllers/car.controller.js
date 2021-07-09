@@ -1,4 +1,4 @@
-const { carService, userService } = require('../services');
+const { carService } = require('../services');
 const { successfulMessage, statusCode } = require('../constants');
 const { ErrorHandler, errorMessage } = require('../error');
 
@@ -71,11 +71,7 @@ module.exports = {
 
   getUserCars: async (req, res, next) => {
     try {
-      const { userId } = req.params;
-
-      const user = await userService.findUserById(userId);
-
-      const { email } = user;
+      const { email } = req.user;
 
       const cars = await carService.getAllUserCars(email);
 
@@ -92,11 +88,8 @@ module.exports = {
 
   getUserCarsByStatus: async (req, res, next) => {
     try {
-      const { userId, status } = req.params;
-
-      const user = await userService.findUserById(userId);
-
-      const { email } = user;
+      const { status } = req.params;
+      const { email } = req.user;
 
       const cars = await carService.getAllUserCarsByStatus(email, status);
 
