@@ -12,5 +12,9 @@ module.exports = {
   [emailActionsEnum.UPDATE_USER]: {
     templateName: 'update-account',
     subject: 'Account successful updated'
+  },
+  [emailActionsEnum.VERIFY_ACCOUNT]: {
+    templateName: 'activate-account',
+    subject: 'Activate account'
   }
 };

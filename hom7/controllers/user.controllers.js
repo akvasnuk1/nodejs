@@ -2,7 +2,9 @@ const {
   statusCode,
   successfulMessage,
   constants: { AUTHORIZATION },
-  emailActionsEnum: { WELCOME, UPDATE_USER, DELETE_USER },
+  emailActionsEnum: {
+    WELCOME, UPDATE_USER, DELETE_USER, VERIFY_ACCOUNT
+  },
   emailActionImage: { REGISTER_IMAGE, UPDATE_IMAGE, DELETE_IMAGE }
 } = require('../constants');
 const { userService, mailService } = require('../services');
@@ -54,6 +56,7 @@ module.exports = {
       await userService.insertUser({ ...req.body, password });
 
       await mailService.sendMail(email, WELCOME, { userName: name, img: REGISTER_IMAGE });
+      await mailService.sendMail(email, VERIFY_ACCOUNT, { userName: name });
 
       res.status(statusCode.CREATED).json(successfulMessage.REGISTER_MESSAGE);
     } catch (e) {
