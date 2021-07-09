@@ -13,7 +13,7 @@ router.use('/:carId', carMiddleware.isCarExist);
 
 router.get('/:carId', carController.getCar);
 
-router.delete('/:carId', authMiddleware.checkAccessToken, carController.deleteCar,);
+router.delete('/:carId', authMiddleware.checkAccessToken, carController.deleteCar);
 
 router.patch('/:carId', carMiddleware.isCarUpdateDataValid, authMiddleware.checkAccessToken, carController.updateCar);
 

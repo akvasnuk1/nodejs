@@ -98,7 +98,7 @@ module.exports = {
 
       const { email } = user;
 
-      const cars = await carService.getAllUserCars(email, status);
+      const cars = await carService.getAllUserCarsByStatus(email, status);
 
       if (!cars.length) {
         // eslint-disable-next-line max-len
