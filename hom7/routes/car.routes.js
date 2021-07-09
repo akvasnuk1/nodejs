@@ -1,11 +1,17 @@
 const router = require('express').Router();
 
 const { carController } = require('../controllers');
-const { authMiddleware, carMiddleware } = require('../middlewars');
+const { authMiddleware, carMiddleware, userMiddleware } = require('../middlewars');
 
 router.get('/', carController.allCars);
 
 router.post('/', carMiddleware.isCarDataValid, authMiddleware.checkAccessToken, carController.createCar);
+
+router.use('/:userId', userMiddleware.isUserExists);
+
+router.get('/:userId', carController.getUserCars);
+
+router.get('/:userId/:status', carMiddleware.isCarUpdateDataValid, carController.getUserCars);
 
 router.get('/:status', carMiddleware.isCarUpdateDataValid, carController.getCarsByStatus);
 
