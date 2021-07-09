@@ -2,11 +2,13 @@
     padding: 10px;
     border-radius: 10px;
     background-color: skyblue;
+    text-align: center;
 }
 
 .content {
     padding: 20px;
     font-size: 20px;
+    text-align: center;
 }
 
 .title {
@@ -20,5 +22,5 @@
     padding: 10px;
     border-radius: 10px;
     background-color: skyblue;
-    column-gap: 260px;
+    column-gap: 390px;
 }
