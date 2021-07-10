@@ -1,0 +1,43 @@
+const path = require('path');
+const uuid = require('uuid').v1;
+const fs = require('fs');
+const { promisify } = require('util');
+
+const mkdirPromise = promisify(fs.mkdir);
+
+const _filesDirBuilder = async (fileName, itemId, itemType, itemClass) => {
+  const pathWithoutStatic = path.join(itemClass, itemId.toString(), itemType);
+  const dirPath = path.join(process.cwd(), 'static', pathWithoutStatic);
+
+  const fileExtension = fileName.split('.').pop();
+  const newFileName = `${uuid()}.${fileExtension}`;
+  const finalPath = path.join(dirPath, newFileName);
+
+  await mkdirPromise(dirPath, { recursive: true });
+
+  const pathForDB = path.join(pathWithoutStatic, newFileName);
+
+  return {
+    finalPath,
+    pathForDB
+  };
+};
+
+const _filesSaver = async (fileArray, itemId, itemType, itemClass) => {
+  const pathArray = [];
+
+  for (const file of fileArray) {
+    const { finalPath, pathForDB } = _filesDirBuilder(file, itemId, itemType, itemClass);
+
+    // eslint-disable-next-line no-await-in-loop
+    await file.mv(finalPath);
+
+    pathArray.push(pathForDB);
+  }
+  return pathArray;
+};
+
+module.exports = {
+  _filesDirBuilder,
+  _filesSaver
+};
