@@ -10,6 +10,7 @@ const {
   statusCode
 } = require('../constants');
 const { ErrorHandler, errorMessage } = require('../error');
+const { fileValidator } = require('../validators');
 
 module.exports = {
   checkFiles: (req, res, next) => {
@@ -71,6 +72,22 @@ module.exports = {
       }
 
       [req.avatar] = req.photos;
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  checkFilesPath: (req, res, next) => {
+    try {
+      const { files } = req.params;
+
+      const { error } = fileValidator.fileExtensionValidator.validate(files);
+
+      if (error) {
+        throw new ErrorHandler(statusCode.BAD_REQUEST, error.details[0].message, errorMessage.WRONG_FILE_LOAD.code);
+      }
 
       next();
     } catch (e) {

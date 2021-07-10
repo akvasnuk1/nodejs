@@ -60,6 +60,13 @@ module.exports = {
   JUST_ONE_PHOTO: {
     message: 'Just one avatar for user',
     code: 4044
+  },
+  WRONG_FILE_LOAD: {
+    code: 4045
+  },
+  WRONG_FILE_LOAD_PATH: {
+    message: 'Wrong file load path',
+    code: 4046
   }
 
 };

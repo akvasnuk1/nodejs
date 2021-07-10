@@ -2,5 +2,6 @@ module.exports = {
   userValidator: require('./users'),
   urlValidator: require('./url'),
   authValidator: require('./auth'),
-  carValidator: require('./car')
+  carValidator: require('./car'),
+  fileValidator: require('./file')
 };

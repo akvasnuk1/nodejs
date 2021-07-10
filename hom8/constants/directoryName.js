@@ -3,4 +3,5 @@ module.exports = {
   DOCS: 'docs',
   PHOTOS: 'photos',
   VIDEOS: 'videos',
+  AVATAR: 'avatar'
 };

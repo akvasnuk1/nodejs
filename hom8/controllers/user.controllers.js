@@ -1,11 +1,13 @@
+const fs = require('fs');
+const { promisify } = require('util');
+const path = require('path');
+
 const {
   statusCode,
   successfulMessage,
   directoryName: {
     USERS,
-    PHOTOS,
-    DOCS,
-    VIDEOS
+    AVATAR,
   },
   constants: { AUTHORIZATION },
   emailActionsEnum: {
@@ -22,8 +24,11 @@ const {
 } = require('../constants');
 const { userService, mailService } = require('../services');
 const { passwordHelper, userHelper } = require('../helpers');
-const { OAuth, User } = require('../database');
+const { OAuth } = require('../database');
 const { fileHelper } = require('../helpers');
+const { ErrorHandler, errorMessage } = require('../error');
+
+const rmdir = promisify(fs.rmdir);
 
 module.exports = {
   allUser: async (req, res, next) => {
@@ -78,12 +83,11 @@ module.exports = {
       await mailService.sendMail(email, VERIFY_ACCOUNT, { userName: name });
 
       const userId = createdUser._id.toString();
-      const { _id } = createdUser;
 
       if (avatar) {
-        const { finalPath, pathForDB } = await fileHelper._filesDirBuilder(avatar.name, userId, PHOTOS, USERS);
+        const { finalPath, pathForDB } = await fileHelper._filesDirBuilder(avatar.name, userId, AVATAR, USERS);
         await avatar.mv(finalPath);
-        await userService.updateUser({ _id }, { avatar: pathForDB });
+        await userService.updateUser(createdUser, { avatar: pathForDB });
       }
 
       res.status(statusCode.CREATED).json(successfulMessage.REGISTER_MESSAGE);
@@ -105,15 +109,48 @@ module.exports = {
     }
   },
 
-  addPhotos: async (req, res, next) => {
+  addFiles: async (req, res, next) => {
     try {
-      const { photos, user: { _id }, user } = req;
+      const {
+        user: { _id },
+        params: { files }
+      } = req;
 
-      const pathArray = await fileHelper._filesSaver(photos, user._id, PHOTOS, USERS);
+      const chosenFiles = req[files];
 
-      await userService.updateUser({ _id }, { photos: pathArray });
+      if (!chosenFiles.length) {
+        // eslint-disable-next-line max-len
+        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.WRONG_FILE_LOAD_PATH.message, errorMessage.WRONG_FILE_LOAD_PATH.code);
+      }
+
+      const pathArray = await fileHelper._filesSaver(chosenFiles, _id, files, USERS);
+
+      await userService.updateUser({ _id }, { files: pathArray });
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  updateOrDeleteAvatar: async (req, res, next) => {
+    try {
+      const { avatar, user: { _id } } = req;
+
+      const userId = _id.toString();
+
+      await rmdir(path.join(process.cwd(), 'static', USERS, userId, 'avatar'), { recursive: true });
+
+      if (avatar) {
+        const { finalPath, pathForDB } = await fileHelper._filesDirBuilder(avatar.name, userId, AVATAR, USERS);
+
+        await avatar.mv(finalPath);
+        await userService.updateUser({ _id }, { avatar: pathForDB });
+
+        res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
+      }
+
+      res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
       next(e);
     }
