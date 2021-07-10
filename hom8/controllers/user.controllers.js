@@ -109,12 +109,23 @@ module.exports = {
     }
   },
 
-  addFiles: async (req, res, next) => {
+  addFilesOrRemove: async (req, res, next) => {
     try {
       const {
         user: { _id },
-        params: { files }
+        params: { files },
+        url
       } = req;
+
+      if (url.includes('delete')) {
+        await rmdir(path.join(process.cwd(), 'static', USERS, _id.toString(), files), { recursive: true });
+
+        await userService.updateUser({ _id }, { files: '' });
+
+        res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
+
+        return;
+      }
 
       const chosenFiles = req[files];
 

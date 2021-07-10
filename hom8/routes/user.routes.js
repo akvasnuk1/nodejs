@@ -25,7 +25,17 @@ router.get('/:userId/cars/:status', carMiddleware.isCarUpdateDataValid, carContr
 
 router.get('/:userId/cars/:carId', carMiddleware.isCarExist, carController.getCar);
 
-router.post('/:userId/photos', authMiddleware.checkAccessToken, fileMiddleware.checkFiles, userController.addPhotos);
+// eslint-disable-next-line max-len
+router.post('/:userId/loadFiles/:files', authMiddleware.checkAccessToken, fileMiddleware.checkFiles, fileMiddleware.checkFilesPath, userController.addFilesOrRemove);
+
+// eslint-disable-next-line max-len
+router.post('/:userId/deleteFiles/:files', authMiddleware.checkAccessToken, fileMiddleware.checkFilesPath, userController.addFilesOrRemove);
+
+// eslint-disable-next-line max-len
+router.patch('/:userId/avatar/update', authMiddleware.checkAccessToken, fileMiddleware.checkFiles, fileMiddleware.checkAvatar, userController.updateOrDeleteAvatar);
+
+// eslint-disable-next-line max-len
+router.delete('/:userId/avatar/delete', authMiddleware.checkAccessToken, userController.updateOrDeleteAvatar);
 
 // router.delete('/:userId/photos/:photo', authMiddleware.checkAccessToken, userController.deletePhotos);
 

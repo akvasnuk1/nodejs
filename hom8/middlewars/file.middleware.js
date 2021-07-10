@@ -83,6 +83,7 @@ module.exports = {
     try {
       const { files } = req.params;
 
+      // eslint-disable-next-line max-len
       const { error } = fileValidator.fileExtensionValidator.validate(files);
 
       if (error) {
