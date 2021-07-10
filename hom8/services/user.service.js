@@ -7,9 +7,7 @@ module.exports = {
 
   findUserById: (userID) => User.findById(userID),
 
-  updateUser: async (user, updatedUser) => {
-    await User.updateOne(user, updatedUser);
-  },
+  updateUser: (user, updatedUser) => User.updateOne(user, updatedUser),
 
   deleteUser: async (user) => {
     await User.deleteOne(user);

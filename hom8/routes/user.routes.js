@@ -25,6 +25,8 @@ router.get('/:userId/cars/:status', carMiddleware.isCarUpdateDataValid, carContr
 
 router.get('/:userId/cars/:carId', carMiddleware.isCarExist, carController.getCar);
 
-router.post('/:userId/photos', authMiddleware.checkAccessToken, fileMiddleware.checkFiles, userController.addPhoto);
+router.post('/:userId/photos', authMiddleware.checkAccessToken, fileMiddleware.checkFiles, userController.addPhotos);
+
+// router.delete('/:userId/photos/:photo', authMiddleware.checkAccessToken, userController.deletePhotos);
 
 module.exports = router;

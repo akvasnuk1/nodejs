@@ -27,7 +27,8 @@ const _filesSaver = async (fileArray, itemId, itemType, itemClass) => {
   const pathArray = [];
 
   for (const file of fileArray) {
-    const { finalPath, pathForDB } = _filesDirBuilder(file, itemId, itemType, itemClass);
+    // eslint-disable-next-line no-await-in-loop
+    const { finalPath, pathForDB } = await _filesDirBuilder(file.name, itemId, itemType, itemClass);
 
     // eslint-disable-next-line no-await-in-loop
     await file.mv(finalPath);

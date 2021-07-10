@@ -83,7 +83,7 @@ module.exports = {
       if (avatar) {
         const { finalPath, pathForDB } = await fileHelper._filesDirBuilder(avatar.name, userId, PHOTOS, USERS);
         await avatar.mv(finalPath);
-        await User.updateOne({ _id }, { avatar: pathForDB });
+        await userService.updateUser({ _id }, { avatar: pathForDB });
       }
 
       res.status(statusCode.CREATED).json(successfulMessage.REGISTER_MESSAGE);
@@ -105,13 +105,13 @@ module.exports = {
     }
   },
 
-  addPhoto: async (req, res, next) => {
+  addPhotos: async (req, res, next) => {
     try {
-      const { photos, user: { _id } } = req;
+      const { photos, user: { _id }, user } = req;
 
-      const pathArray = await fileHelper._filesSaver(photos, _id.toString(), PHOTOS, USERS);
+      const pathArray = await fileHelper._filesSaver(photos, user._id, PHOTOS, USERS);
 
-      User.updateOne({ _id }, pathArray);
+      await userService.updateUser({ _id }, { photos: pathArray });
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {
