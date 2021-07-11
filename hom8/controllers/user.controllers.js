@@ -137,11 +137,25 @@ module.exports = {
 
       const pathArray = await fileHelper._filesSaver(chosenFiles, _id, files, USERS);
 
-      console.log({ [files]: pathArray });
+      if (user[files].length) {
+        const filesArray = user[files];
 
-      const userrr = await userService.updateUser(user, { [files]: pathArray });
+        filesArray.push(...pathArray);
 
-      console.log(userrr);
+        filesArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        Object.assign(user, { filesArray });
+
+        await userService.updateUser({ _id }, user);
+
+        res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
+
+        return next();
+      }
+
+      Object.assign(user, { [files]: pathArray });
+
+      await userService.updateUser({ _id }, user);
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {

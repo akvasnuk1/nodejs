@@ -6,15 +6,9 @@ const userSchema = new Schema({
   avatar: {
     type: String
   },
-  documents: {
-    type: Array
-  },
-  photos: {
-    type: Array
-  },
-  videos: {
-    type: Array
-  },
+  documents: [],
+  photos: [],
+  videos: [],
   name: {
     type: String,
     required: true

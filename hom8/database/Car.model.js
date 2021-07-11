@@ -26,7 +26,10 @@ const carSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: dataBaseTablesEnum.USER
-  }
+  },
+  documents: [],
+  photos: [],
+  videos: [],
 }, { timestamps: true });
 
 carSchema.pre('find', function() {

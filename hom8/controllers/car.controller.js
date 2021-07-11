@@ -143,11 +143,29 @@ module.exports = {
 
       const pathArray = await fileHelper._filesSaver(chosenFiles, _id, files, CARS);
 
-      await carService.updateCar({ _id }, { [files]: pathArray });
+      if (car[files].length) {
+        const filesArray = car[files];
+
+        filesArray.push(...pathArray);
+
+        filesArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        Object.assign(car, { filesArray });
+
+        await carService.updateCar({ _id }, car);
+
+        res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
+
+        return next();
+      }
+
+      Object.assign(car, { [files]: pathArray });
+
+      await carService.updateCar({ _id }, car);
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {
-      next(e);
+      throw new Error(e.message);
     }
   }
 };
