@@ -9,7 +9,7 @@ module.exports = {
 
   updateUser: (user, updatedUser) => User.updateOne(user, updatedUser),
 
-  deleteUser:  (user) => User.deleteOne(user),
+  deleteUser: (user) => User.deleteOne(user),
 
   findUserByEmail: (email) => User.findOne({ email })
 };

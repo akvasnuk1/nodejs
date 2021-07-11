@@ -114,17 +114,18 @@ module.exports = {
       const {
         user: { _id },
         params: { files },
-        url
+        url,
+        user
       } = req;
 
       if (url.includes('delete')) {
         await rmdir(path.join(process.cwd(), 'static', USERS, _id.toString(), files), { recursive: true });
 
-        await userService.updateUser({ _id }, { files: '' });
+        await userService.updateUser(user, { files: '' });
 
         res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
 
-        return;
+        return next();
       }
 
       const chosenFiles = req[files];
@@ -136,7 +137,7 @@ module.exports = {
 
       const pathArray = await fileHelper._filesSaver(chosenFiles, _id, files, USERS);
 
-      await userService.updateUser({ _id }, { files: pathArray });
+      await userService.updateUser(user, { [files]: pathArray, timestamp: Date.now().toLocaleString() });
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {
