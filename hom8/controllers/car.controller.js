@@ -127,7 +127,7 @@ module.exports = {
       if (url.includes('deleteFiles')) {
         await rmdir(path.join(process.cwd(), 'static', CARS, _id.toString(), files), { recursive: true });
 
-        await carService.updateCar(car, { [files]: '' });
+        await carService.updateCar({ _id }, { [files]: [] });
 
         res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
 

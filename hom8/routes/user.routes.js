@@ -37,6 +37,4 @@ router.patch('/:userId/avatar/update', authMiddleware.checkAccessToken, fileMidd
 // eslint-disable-next-line max-len
 router.delete('/:userId/avatar/delete', authMiddleware.checkAccessToken, userController.updateOrDeleteAvatar);
 
-// router.delete('/:userId/photos/:photo', authMiddleware.checkAccessToken, userController.deletePhotos);
-
 module.exports = router;
