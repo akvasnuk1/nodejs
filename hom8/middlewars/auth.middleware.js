@@ -65,6 +65,7 @@ module.exports = {
       }
 
       req.user = tokenObject.user;
+
       next();
     } catch (e) {
       next(e);

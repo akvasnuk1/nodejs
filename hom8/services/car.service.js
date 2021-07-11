@@ -5,9 +5,7 @@ module.exports = {
 
   getCar: (carId) => Car.findById(carId),
 
-  updateCar: async (car, carData) => {
-    await Car.updateOne(car, carData);
-  },
+  updateCar: (car, carData) => Car.updateOne(car, carData),
 
   deleteCar: async (car) => {
     await Car.deleteOne(car);

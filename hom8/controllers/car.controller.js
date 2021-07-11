@@ -1,6 +1,17 @@
+const fs = require('fs');
+const { promisify } = require('util');
+const path = require('path');
+
 const { carService } = require('../services');
-const { successfulMessage, statusCode } = require('../constants');
+const {
+  successfulMessage,
+  statusCode,
+  directoryName: { CARS }
+} = require('../constants');
 const { ErrorHandler, errorMessage } = require('../error');
+const { fileHelper } = require('../helpers');
+
+const rmdir = promisify(fs.rmdir);
 
 module.exports = {
   allCars: async (req, res, next) => {
@@ -103,4 +114,40 @@ module.exports = {
       next(e);
     }
   },
+
+  addFilesOrRemove: async (req, res, next) => {
+    try {
+      const {
+        car: { _id },
+        params: { files },
+        url,
+        car
+      } = req;
+
+      if (url.includes('deleteFiles')) {
+        await rmdir(path.join(process.cwd(), 'static', CARS, _id.toString(), files), { recursive: true });
+
+        await carService.updateCar(car, { [files]: '' });
+
+        res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
+
+        return next();
+      }
+
+      const chosenFiles = req[files];
+
+      if (!chosenFiles.length) {
+        // eslint-disable-next-line max-len
+        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.WRONG_FILE_LOAD_PATH.message, errorMessage.WRONG_FILE_LOAD_PATH.code);
+      }
+
+      const pathArray = await fileHelper._filesSaver(chosenFiles, _id, files, CARS);
+
+      await carService.updateCar({ _id }, { [files]: pathArray });
+
+      res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
+    } catch (e) {
+      next(e);
+    }
+  }
 };

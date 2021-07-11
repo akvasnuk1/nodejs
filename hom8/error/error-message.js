@@ -67,6 +67,10 @@ module.exports = {
   WRONG_FILE_LOAD_PATH: {
     message: 'Wrong file load path',
     code: 4046
+  },
+  NOT_YOUR_CAR: {
+    message: 'Not your car',
+    code: 4047
   }
 
 };

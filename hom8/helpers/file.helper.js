@@ -33,7 +33,7 @@ const _filesSaver = async (fileArray, itemId, itemType, itemClass) => {
     // eslint-disable-next-line no-await-in-loop
     await file.mv(finalPath);
 
-    pathArray.push(pathForDB);
+    pathArray.push({ pathForDB, timestamp: new Date().toLocaleString() });
   }
   return pathArray;
 };

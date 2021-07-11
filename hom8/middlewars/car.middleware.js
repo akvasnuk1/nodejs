@@ -56,5 +56,20 @@ module.exports = {
     } catch (e) {
       next(e);
     }
+  },
+
+  isUserHaveCar: (req, res, next) => {
+    try {
+      const { user: { _id }, car: { owner } } = req;
+
+      if (owner._id.toString() !== _id.toString()) {
+        throw new ErrorHandler(statusCode.BAD_REQUEST, errorMessage.NOT_YOUR_CAR.message, errorMessage.NOT_YOUR_CAR.code);
+      }
+
+      next();
+    } catch (e) {
+      next(e);
+    }
   }
+
 };

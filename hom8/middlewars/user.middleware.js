@@ -23,6 +23,7 @@ module.exports = {
   isUserExists: async (req, res, next) => {
     try {
       const { userId } = req.params;
+
       const { error } = await urlValidator.urlValidator.validate(userId);
 
       if (error) {
