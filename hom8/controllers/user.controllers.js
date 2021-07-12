@@ -86,6 +86,7 @@ module.exports = {
 
       if (avatar) {
         const { finalPath, pathForDB } = await fileHelper._filesDirBuilder(avatar.name, userId, AVATAR, USERS);
+
         await avatar.mv(finalPath);
         await userService.updateUser(createdUser, { avatar: pathForDB });
       }
@@ -125,7 +126,7 @@ module.exports = {
 
         res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
 
-        return next();
+        return;
       }
 
       const chosenFiles = req[files];
@@ -141,7 +142,6 @@ module.exports = {
         const filesArray = user[files];
 
         filesArray.push(...pathArray);
-
         filesArray.sort((a, b) => new Date(b.uploadTime) - new Date(a.uploadTime));
 
         Object.assign(user, { filesArray });
@@ -150,7 +150,7 @@ module.exports = {
 
         res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
 
-        return next();
+        return;
       }
 
       Object.assign(user, { [files]: pathArray });
@@ -170,7 +170,6 @@ module.exports = {
       const userId = _id.toString();
 
       await rmdir(path.join(process.cwd(), 'static', USERS, userId, 'avatar'), { recursive: true });
-
       await userService.updateUser({ _id }, { avatar: undefined });
 
       if (avatar) {
@@ -181,7 +180,7 @@ module.exports = {
 
         res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
 
-        return next();
+        return;
       }
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);

@@ -131,7 +131,7 @@ module.exports = {
 
         res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
 
-        return next();
+        return;
       }
 
       const chosenFiles = req[files];
@@ -156,7 +156,7 @@ module.exports = {
 
         res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
 
-        return next();
+        return;
       }
 
       Object.assign(car, { [files]: pathArray });
