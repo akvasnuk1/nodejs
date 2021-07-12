@@ -169,7 +169,6 @@ module.exports = {
       const userId = _id.toString();
 
       await rmdir(path.join(process.cwd(), 'static', USERS, userId, 'avatar'), { recursive: true });
-      await userService.updateUser({ _id }, { avatar: undefined });
 
       if (avatar) {
         const { finalPath, pathForDB } = await fileHelper._filesDirBuilder(avatar.name, userId, AVATAR, USERS);
@@ -181,6 +180,8 @@ module.exports = {
 
         return;
       }
+
+      await userService.updateUser({ _id }, { avatar: undefined });
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
