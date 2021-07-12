@@ -19,13 +19,23 @@ router.delete('/:carId', authMiddleware.checkAccessToken, carController.deleteCa
 
 router.patch('/:carId', carMiddleware.isCarUpdateDataValid, authMiddleware.checkAccessToken, carController.updateCar);
 
-// eslint-disable-next-line max-len
-router.patch('/:carId/:status', carMiddleware.isCarUpdateDataValid, authMiddleware.checkAccessToken, carController.updateStatusCar);
+router.patch('/:carId/:status',
+  carMiddleware.isCarUpdateDataValid,
+  authMiddleware.checkAccessToken,
+  carController.updateStatusCar);
 
-// eslint-disable-next-line max-len
-router.post('/:carId/loadFiles/:files', authMiddleware.checkAccessToken, carMiddleware.isUserHaveCar, fileMiddleware.checkFiles, fileMiddleware.checkFilesPath, carController.addFilesOrRemove);
+router.post('/:carId/loadFiles/:files',
+  authMiddleware.checkAccessToken,
+  carMiddleware.isUserHaveCar,
+  fileMiddleware.checkFiles,
+  fileMiddleware.checkFilesPath,
+  carController.addFilesOrRemove);
 
-// eslint-disable-next-line max-len
-router.delete('/:carId/deleteFiles/:files', carMiddleware.isCarExist, authMiddleware.checkAccessToken, carMiddleware.isUserHaveCar, fileMiddleware.checkFilesPath, carController.addFilesOrRemove);
+router.delete('/:carId/deleteFiles/:files',
+  carMiddleware.isCarExist,
+  authMiddleware.checkAccessToken,
+  carMiddleware.isUserHaveCar,
+  fileMiddleware.checkFilesPath,
+  carController.addFilesOrRemove);
 
 module.exports = router;
