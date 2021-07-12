@@ -45,12 +45,13 @@ module.exports = {
 
   deleteUser: async (req, res, next) => {
     try {
-      const { user } = req;
+      const { user, user: { _id } } = req;
       const token = req.get(AUTHORIZATION);
 
       await userService.deleteUser(user);
       await OAuth.remove({ accessToken: token });
       await mailService.sendMail(user.email, DELETE_USER, { userName: user.name, img: DELETE_IMAGE });
+      await rmdir(path.join(process.cwd(), 'static', USERS, _id.toString()), { recursive: true });
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
