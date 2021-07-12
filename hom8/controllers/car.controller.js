@@ -36,7 +36,10 @@ module.exports = {
 
   deleteCar: async (req, res, next) => {
     try {
-      await carService.deleteCar(req.car);
+      const { car, car: { _id } } = req;
+
+      await carService.deleteCar(car);
+      await rmdir(path.join(process.cwd(), 'static', CARS, _id.toString()), { recursive: true });
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
