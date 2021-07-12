@@ -162,9 +162,7 @@ module.exports = {
         return;
       }
 
-      Object.assign(car, { [files]: pathArray });
-
-      await carService.updateCar({ _id }, car);
+      await carService.updateCar({ _id }, { $push: { [files]: pathArray } });
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {

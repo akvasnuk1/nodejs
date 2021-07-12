@@ -154,9 +154,7 @@ module.exports = {
         return;
       }
 
-      Object.assign(user, { [files]: pathArray });
-
-      await userService.updateUser({ _id }, user);
+      await userService.updateUser({ _id }, { $push: { [files]: pathArray } });
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {
