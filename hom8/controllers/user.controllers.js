@@ -181,7 +181,7 @@ module.exports = {
         return;
       }
 
-      await userService.updateUser({ _id }, { avatar: undefined });
+      await userService.updateUser({ _id }, { avatar: null });
 
       res.status(statusCode.DELETED).json(successfulMessage.DELETED_MESSAGE);
     } catch (e) {
