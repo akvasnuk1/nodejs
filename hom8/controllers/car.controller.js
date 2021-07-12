@@ -165,7 +165,7 @@ module.exports = {
 
       res.status(statusCode.UPDATED).json(successfulMessage.UPDATED_MESSAGE);
     } catch (e) {
-      throw new Error(e.message);
+      next(e);
     }
   }
 };
