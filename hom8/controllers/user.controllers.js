@@ -142,7 +142,7 @@ module.exports = {
 
         filesArray.push(...pathArray);
 
-        filesArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        filesArray.sort((a, b) => new Date(b.uploadTime) - new Date(a.uploadTime));
 
         Object.assign(user, { filesArray });
 
